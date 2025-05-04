@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>{{ item.name }}</h1>
+    <p>Создано: {{ item.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+    {% if item.description %}
+        <p>{{ item.description }}</p>
+    {% else %}
+        <p>Нет описания.</p>
+    {% endif %}
+    {% if current_user.is_authenticated %}
+        <a href="{{ url_for('main.update', item_id=item.id) }}" class="btn btn-warning">Редактировать</a>
+        <form method="POST" action="{{ url_for('main.delete', item_id=item.id) }}" style="display: inline;">
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Вы уверены, что хотите удалить этот элемент?')">Удалить</button>
+        </form>
+    {% endif %}
+    <p><a href="{{ url_for('main.index') }}">Назад к списку</a></p>
+{% endblock %}
